@@ -1,0 +1,65 @@
+body {
+    background-color: rosybrown;
+    font-family: Arial, sans-serif;
+    color: #000000;
+    /*padding: 20px;*/
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    margin: auto;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    max-width: 1200px;
+}
+
+.write{
+    flex: 60%;
+    margin: 10px;
+    background-color: rosybrown;
+    padding: 30px;
+    border-radius: 10px; 
+}
+
+.read{
+    flex: 20%;
+    margin: 10px 5px;
+    background-color: rosybrown;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+section {
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+input {
+    margin: 5px 0;
+    padding: 5px;
+    width: inherit;
+    
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #78482f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    border-radius: 10px; 
+}
+
+button:hover {
+  background-color: #2a612d;
+}
+
+#connectWallet {
+    margin-left: 20%;
+    padding: 10px 20px;

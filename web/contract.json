@@ -1,0 +1,127 @@
+{
+    "contractAddress" : "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "contractABI" : [
+        {
+        "inputs": [],
+        "name": "EXPIRATION_TIME",
+        "outputs": [
+            {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        },
+        {
+        "inputs": [],
+        "name": "MIN_PURCHASE",
+        "outputs": [
+            {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        },
+        {
+        "inputs": [
+            {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+            }
+        ],
+        "name": "buy",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+        },
+        {
+        "inputs": [],
+        "name": "getGiftCards",
+        "outputs": [
+            {
+            "internalType": "bytes32[]",
+            "name": "",
+            "type": "bytes32[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        },
+        {
+        "inputs": [
+            {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+            }
+        ],
+        "name": "getPurchaseTime",
+        "outputs": [
+            {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        },
+        {
+        "inputs": [
+            {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+            }
+        ],
+        "name": "redeem",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+        },
+        {
+        "inputs": [
+            {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+            }
+        ],
+        "name": "redeemed",
+        "outputs": [
+            {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        },
+        {
+        "inputs": [
+            {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+            }
+        ],
+        "name": "whoOwns",
+        "outputs": [
+            {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+        }
+  ]
+}
