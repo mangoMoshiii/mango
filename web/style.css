@@ -28,9 +28,9 @@ h1 {
 
 .read{
     flex: 20%;
-    margin: 10px 5px;
+    margin: 5px 5px;
     background-color: rosybrown;
-    padding: 30px;
+    padding: 10px 30px;
     border-radius: 10px;
 }
 

@@ -135,8 +135,9 @@ const contractABI = [
 //connect wallet
 async function connectWallet() {
   if (window.location.search.includes("testMode=true")) { //in testmode
-    const provider = new ethers.providers.JsonRpcProvider();
-    const wallet = new ethers.Wallet("0x59c6995e998f97a5a0044976f58e0fdf4f8cb58f0b7b3e2c1d5d1e1c985c2c3c", provider);
+    provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+    //hardcoded hardhat wallet address
+    const wallet = new ethers.Wallet("0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e", provider);
     userAddress = await wallet.getAddress();
     signer = wallet;
     contract = new ethers.Contract(contractAddress, contractABI, signer);
@@ -161,9 +162,10 @@ async function connectWallet() {
       return;
   }
   document.getElementById("connectWallet").textContent = `Connected: ${userAddress.slice(0, 6)}...`;
+  await updateBalance();
   console.log("Wallet connected");
-
-  getOwnedGiftCards();
+  await getOwnedGiftCards();
+  
 }
 
 //buy a gift card
@@ -182,6 +184,7 @@ async function buyGiftCard(){
     await tx.wait();
     document.getElementById("statusMessage").textContent ="✅ Gift card purchased!";
     getOwnedGiftCards();
+    updateBalance();
     document.getElementById("buyCode").value = "";
     document.getElementById("amountETH").value = "";
 
@@ -207,6 +210,7 @@ async function redeemGiftCard() {
     await tx.wait();
     document.getElementById("statusMessage").textContent = "🎉 Gift card redeemed!";
     getOwnedGiftCards();
+    updateBalance();
     document.getElementById("redeemCode").value = "";
   } catch (err) {
     console.error(err);
@@ -255,6 +259,30 @@ async function getOwnedGiftCards() {
     const errorMsg = document.createElement("li");
     errorMsg.textContent = "🚫 Failed to load your gift cards. Please try again.";
     list.appendChild(errorMsg);
+  }
+}
+
+//check wallet balance
+async function updateBalance(){ 
+  if (!provider) {
+    console.warn("⛔ provider not initialized");
+    return;
+  }
+  console.log("Calling updateBalance()");
+  try {
+    const addr = await signer.getAddress();
+    console.log("Signer address:", addr);
+
+    const raw = await provider.getBalance(addr);
+    if (!raw || raw._hex === "0x0") {
+      console.warn("⚠️ Balance response is blank or zero:", raw);
+    } else {
+      const eth = ethers.utils.formatEther(raw);
+      console.log("💰 ETH balance:", eth);
+      document.getElementById("walletBalance").textContent = eth;
+    }
+  } catch (err) {
+    console.error("❌ Thrown error during getBalance:", err);
   }
 }
 
