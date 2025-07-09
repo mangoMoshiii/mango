@@ -3,7 +3,6 @@ let provider;
 let signer;
 let contract;
 
-// Replace these with your actual contract info
 const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 const contractABI = [
     {
@@ -212,7 +211,6 @@ async function getOwnedGiftCards() {
     const list = document.getElementById("ownedGiftCards");
     list.innerHTML = "";
 
-    // 🕵️‍♂️ Check if the result is empty or undefined
     if (!cards || cards.length === 0) {
       console.log("No gift cards detected");
       const msg = document.createElement("li");
