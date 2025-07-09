@@ -130,6 +130,8 @@ const contractABI = [
     }
 ];
 
+console.log("Ethers object:", typeof ethers);
+
 //connect wallet
 async function connectWallet() {
   if (!window.ethereum) {
@@ -138,7 +140,10 @@ async function connectWallet() {
   }
 
   // Initialize provider and signer
-  provider = new ethers.BrowserProvider(window.ethereum);
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+  //local provider 
+  //const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+  //use one of the private keys from npx hardhat node
   await provider.send("eth_requestAccounts", []);
   signer = await provider.getSigner();
 
@@ -147,6 +152,7 @@ async function connectWallet() {
 
   const userAddress = await signer.getAddress();
   document.getElementById("connectWallet").textContent = `Connected: ${userAddress.slice(0, 6)}...`;
+  console.log("Wallet connected");
 
   getOwnedGiftCards();
 }
@@ -166,6 +172,9 @@ async function buyGiftCard(){
     await tx.wait();
     alert("✅ Gift card purchased!");
     getOwnedGiftCards();
+    document.getElementById("buyCode").value = "";
+    document.getElementById("amountETH").value = "";
+
   } catch (err) {
     console.error(err);
     alert("Purchase failed ❌");
@@ -183,10 +192,11 @@ async function redeemGiftCard() {
   const codeHash = ethers.utils.id(code);
 
   try {
-    const tx = await contract.redeemGiftCard(codeHash);
+    const tx = await contract.redeem(codeHash);
     await tx.wait();
     alert("🎉 Gift card redeemed!");
     getOwnedGiftCards();
+    document.getElementById("redeemCode").value = "";
   } catch (err) {
     console.error(err);
     alert("❌ Redemption failed.");
@@ -198,23 +208,43 @@ async function redeemGiftCard() {
 async function getOwnedGiftCards() {
   try {
     const cards = await contract.getGiftCards();
+    console.log("got gift cards");
     const list = document.getElementById("ownedGiftCards");
     list.innerHTML = "";
 
+    // 🕵️‍♂️ Check if the result is empty or undefined
+    if (!cards || cards.length === 0) {
+      console.log("No gift cards detected");
+      const msg = document.createElement("li");
+      msg.textContent = "🎁 You don’t own any gift cards yet!";
+      list.appendChild(msg);
+      return;
+    }
+
     for (let hash of cards) {
+      try{
       const redeemed = await contract.redeemed(hash);
+      console.log("redeemed "+redeemed);
       const timestamp = await contract.getPurchaseTime(hash);
+      console.log("");
       const expiration = Number(timestamp) + 30 * 24 * 60 * 60;
       const isExpired = Date.now() / 1000 > expiration;
 
       const li = document.createElement("li");
-      li.textContent = `Hash: ${hash} | ${redeemed ? "✅ Redeemed" : "🟢 Active"} | ${
+      li.textContent = `Hash: ${hash.slice(0, 6)}... ${redeemed ? "✅ Redeemed" : "🟢 Active"} ${
         isExpired ? "⏰ Expired" : "📆 Valid"
       }`;
       list.appendChild(li);
+    }catch (innerErr) {
+        console.warn(`Error fetching details for hash ${hash}:`, innerErr);
+      }
     }
-  } catch (err) {
+  } catch(err){
     console.error("Fetch error:", err);
+    const list = document.getElementById("ownedGiftCards");
+    const errorMsg = document.createElement("li");
+    errorMsg.textContent = "🚫 Failed to load your gift cards. Please try again.";
+    list.appendChild(errorMsg);
   }
 }
 

@@ -19,7 +19,7 @@ h1 {
 }
 
 .write{
-    flex: 60%;
+    flex: 80%;
     margin: 10px;
     background-color: rosybrown;
     padding: 30px;
@@ -34,6 +34,11 @@ h1 {
     border-radius: 10px;
 }
 
+.read li {
+    max-width: 200px;
+    text-wrap: wrap;
+    word-break: break-all;
+}
 section {
     padding-top: 10px;
     border-top: 1px solid #ccc;
@@ -63,3 +68,4 @@ button:hover {
 #connectWallet {
     margin-left: 20%;
     padding: 10px 20px;
+}

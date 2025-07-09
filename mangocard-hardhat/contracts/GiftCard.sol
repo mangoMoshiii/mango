@@ -46,6 +46,8 @@ contract GiftCard {
         require(amount > 0, "Invalid value");
 
         redeemed[codeHash] = true;
+
+
         // 💸 Transfer ETH to the redeemer
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "ETH transfer failed");
