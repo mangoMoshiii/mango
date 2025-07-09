@@ -21,7 +21,7 @@ contract GiftCard {
     uint256 public constant MIN_PURCHASE = 0.001 ether;
     uint256 public constant EXPIRATION_TIME = 30 days;
 
-    // 🛍️ Purchase a gift card by sending ETH and a code hash
+    // Purchase a gift card by sending ETH and a code hash
     function buy(bytes32 codeHash) public payable {
         require(msg.value >= MIN_PURCHASE, "Send at least 0.001 ETH");
         require(codeOwner[codeHash] == address(0), "Code already used");
@@ -33,7 +33,7 @@ contract GiftCard {
         redeemed[codeHash] = false;
     }
 
-    // 🎁 Redeem a card — only if not expired or redeemed, and owned by caller
+    // Redeem a card — only if not expired or redeemed, and owned by caller
     function redeem(bytes32 codeHash) public {
         require(codeOwner[codeHash] == msg.sender, "Not your gift card");
         require(!redeemed[codeHash], "Already redeemed");
@@ -48,22 +48,22 @@ contract GiftCard {
         redeemed[codeHash] = true;
 
 
-        // 💸 Transfer ETH to the redeemer
+        // Transfer ETH to the redeemer
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "ETH transfer failed");
     }
 
-    // 📋 View cards owned by caller
+    // View cards owned by caller
     function getGiftCards() public view returns (bytes32[] memory) {
         return userGiftCards[msg.sender];
     }
 
-    // 👀 See who owns a specific card
+    // See who owns a specific card
     function whoOwns(bytes32 codeHash) public view returns (address) {
         return codeOwner[codeHash];
     }
 
-    // ⏳ View timestamp when the card was purchased
+    // View timestamp when the card was purchased
     function getPurchaseTime(bytes32 codeHash) public view returns (uint256) {
         return purchaseTimestamp[codeHash];
     }

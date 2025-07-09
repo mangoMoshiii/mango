@@ -37,7 +37,6 @@ h1 {
 .read li {
     max-width: 200px;
     text-wrap: wrap;
-    word-break: break-all;
 }
 section {
     padding-top: 10px;

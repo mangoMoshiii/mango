@@ -2,6 +2,7 @@
 let provider;
 let signer;
 let contract;
+let userAddress;
 
 const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 const contractABI = [
@@ -129,27 +130,36 @@ const contractABI = [
     }
 ];
 
-console.log("Ethers object:", typeof ethers);
+//console.log("Ethers object:", typeof ethers);
 
 //connect wallet
 async function connectWallet() {
-  if (!window.ethereum) {
-    alert("Please install MetaMask to use this app.");
-    return;
+  if (window.location.search.includes("testMode=true")) { //in testmode
+    const provider = new ethers.providers.JsonRpcProvider();
+    const wallet = new ethers.Wallet("0x59c6995e998f97a5a0044976f58e0fdf4f8cb58f0b7b3e2c1d5d1e1c985c2c3c", provider);
+    userAddress = await wallet.getAddress();
+    signer = wallet;
+    contract = new ethers.Contract(contractAddress, contractABI, signer);
   }
+  
+  else if (window.ethereum){
+    // Initialize provider and signer
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    //local provider 
+    //const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+    //use one of the private keys from npx hardhat node
+    await provider.send("eth_requestAccounts", []);
+    signer = await provider.getSigner();
+    console.log("Signer:", signer);
 
-  // Initialize provider and signer
-  provider = new ethers.providers.Web3Provider(window.ethereum);
-  //local provider 
-  //const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-  //use one of the private keys from npx hardhat node
-  await provider.send("eth_requestAccounts", []);
-  signer = await provider.getSigner();
-
-  // Load contract instance
-  contract = new ethers.Contract(contractAddress, contractABI,signer);
-
-  const userAddress = await signer.getAddress();
+    // Load contract instance
+    contract = new ethers.Contract(contractAddress, contractABI,signer);
+    userAddress = await signer.getAddress();
+  }
+  else{//no metamask or mock
+      alert("Please install MetaMask to use this app.");
+      return;
+  }
   document.getElementById("connectWallet").textContent = `Connected: ${userAddress.slice(0, 6)}...`;
   console.log("Wallet connected");
 
@@ -168,15 +178,16 @@ async function buyGiftCard(){
 
   try {
     const tx = await contract.buy(codeHash, { value });
+    document.getElementById("statusMessage").textContent = "Processing purchase...";
     await tx.wait();
-    alert("✅ Gift card purchased!");
+    document.getElementById("statusMessage").textContent ="✅ Gift card purchased!";
     getOwnedGiftCards();
     document.getElementById("buyCode").value = "";
     document.getElementById("amountETH").value = "";
 
   } catch (err) {
     console.error(err);
-    alert("Purchase failed ❌");
+    document.getElementById("statusMessage").textContent ="Purchase failed ❌";
   }
 };
 
@@ -184,7 +195,7 @@ async function buyGiftCard(){
 async function redeemGiftCard() {
   const code = document.getElementById("redeemCode").value;
   if (!code) {
-    alert("Enter a code to redeem.");
+    document.getElementById("statusMessage").textContent ="Enter a code to redeem.";
     return;
   }
 
@@ -192,13 +203,14 @@ async function redeemGiftCard() {
 
   try {
     const tx = await contract.redeem(codeHash);
+    document.getElementById("statusMessage").textContent = "Processing redemption...";
     await tx.wait();
-    alert("🎉 Gift card redeemed!");
+    document.getElementById("statusMessage").textContent = "🎉 Gift card redeemed!";
     getOwnedGiftCards();
     document.getElementById("redeemCode").value = "";
   } catch (err) {
     console.error(err);
-    alert("❌ Redemption failed.");
+    document.getElementById("statusMessage").textContent = "❌ Redemption failed.";
   }
 };
 
@@ -229,7 +241,7 @@ async function getOwnedGiftCards() {
       const isExpired = Date.now() / 1000 > expiration;
 
       const li = document.createElement("li");
-      li.textContent = `Hash: ${hash.slice(0, 6)}... ${redeemed ? "✅ Redeemed" : "🟢 Active"} ${
+      li.textContent = `Hash: ${hash.slice(0, 8)}...   ${redeemed ? "✅ Redeemed" : "🟢 Active"} ${
         isExpired ? "⏰ Expired" : "📆 Valid"
       }`;
       list.appendChild(li);
