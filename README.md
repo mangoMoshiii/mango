@@ -8,7 +8,26 @@ The project includes a smart contract, a web app frontend, and automated test ca
 
 The web app frontend runs on Live Server and testing requires a running Hardhat node.
 
-## Browser Driver Setup
+## Requirements
+### Python Requirements
+For contract-level tests and Selenium UI automation. Install using:
+```bash
+pip install -r requirements.txt
+```
+requirements.txt includes:
+- web3: Interact with the Ethereum contract in Python
+- selenium:	Automate browser actions for frontend tests
+- pytest:	Run test functions
+
+### Node.js Requirements
+For deploying contract and running the frontend app. Install using:
+```bash
+npm install
+```
+package.json includes:
+- hardhat: Local Ethereum development framework
+- ethers: Web3 library for frontend & deployment
+### Browser Driver Setup
 
 To run Selenium UI tests, you must install the [Microsoft Edge WebDriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/):
 
