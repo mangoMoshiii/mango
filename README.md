@@ -6,11 +6,21 @@ This project demonstrates an online gift card system backed by Ethereum smart co
 
 The project includes a smart contract, a web app frontend, and automated test cases.
 
-The web app frontend runs on VSCode LiveServer and testing requires a running HardHat
+The web app frontend runs on Live Server and testing requires a running Hardhat node.
+
+## Browser Driver Setup
+
+To run Selenium UI tests, you must install the [Microsoft Edge WebDriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/):
+
+1. Choose the version that matches your installed Edge.
+2. Place the downloaded `msedgedriver.exe` inside `mango\`
+3. Ensure your system has Edge installed and up to date.
+
+**Note**: You can also use Chrome by modifying the Selenium setup in `conftest.py`.
 
 ## Setup
 
-### Option 1: Automated Testing (Requires msedgedriver)
+### Option 1: Automated Testing 
 
 1. Start a hardhat node:
    ```bash
@@ -31,7 +41,7 @@ The web app frontend runs on VSCode LiveServer and testing requires a running Ha
    ```bash
    python3 -m pytest giftcard_test.py
    ```
-6. Testing (UI)
+6. Testing (UI: Requires msedgedriver)
    Run pytest and provide the gift card code as a parameter (each code can only be used once per node session):
    ```bash
    python3 -m pytest tests/ --code=[GIFTCARDCODE]
@@ -54,7 +64,7 @@ The web app frontend runs on VSCode LiveServer and testing requires a running Ha
    ```shell
    live-server --port=5500
    ```
-4. Set up test network in MetaMAsk using the following parameters:
+4. Set up test network in MetaMask using the following parameters:
     - RPC URL	http://127.0.0.1:8545 (Hardhat)
     - Chain ID	31337 (Hardhat)
     - Currency Symbol	ETH
@@ -64,5 +74,6 @@ The web app frontend runs on VSCode LiveServer and testing requires a running Ha
     - Click “Add Account”
     - Select "Private Key"
     - Enter private key from Hardhat
-   This gives you a test wallet preloaded with 10,000 ETH, which can be used to test the web app.
+   
+   This gives you a test wallet preloaded with 10000 ETH, which can be used to test the web app.
 
