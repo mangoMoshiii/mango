@@ -9,8 +9,7 @@ async function main() {
   const giftCard = await GiftCard.deploy(); // ← ensure this is a function call
 
   // Wait for it to be deployed
-  await giftCard.waitForDeployment(); // ⬅️ newer Hardhat versions use this instead of .deployed()
-
+  await giftCard.deployed();
   // Get the address
   const address = giftCard.address;
   // Write to a shared JSON file
