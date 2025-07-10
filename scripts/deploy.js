@@ -12,7 +12,7 @@ async function main() {
   await giftCard.waitForDeployment(); // ⬅️ newer Hardhat versions use this instead of .deployed()
 
   // Get the address
-  const address = await giftCard.getAddress();
+  const address = giftCard.address;
   // Write to a shared JSON file
   const output = { address: address };
   const filePath = path.join(__dirname, "..", "web", "contractInfo.json");
