@@ -1,9 +1,9 @@
-//import contractInfo from "./contract.json";
 let provider;
 let signer;
 let contract;
 let userAddress;
 let contractAddress;
+console.log("Ethers version:", ethers.version);
 
 fetch("contractInfo.json")
   .then(res => res.json())

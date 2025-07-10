@@ -26,13 +26,14 @@ def test_buy(driver, code):
     # click purchase button
     driver.find_element(By.ID, "buyButton").click()
 
-    time.sleep(2)
+    time.sleep(1)
     balance_after_text = driver.find_element(By.ID, "walletBalance").text.strip()
     balance_after = float(balance_after_text)
 
     status_msg = driver.find_element(By.ID, "statusMessage")
+    time.sleep(2)
     print("Purchase status:", status_msg.text)
 
     #tests
-    assert "purchased" in status_msg.text or "Processing" in status_msg.text
+    assert "Processing" in status_msg.text or "purchased" in status_msg.text
     assert balance_before > balance_after

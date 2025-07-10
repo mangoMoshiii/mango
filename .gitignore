@@ -1,1 +1,16 @@
-node_modules
+# Node
+node_modules/
+.env
+.contractInfo.json
+cache/
+ignition/modules/
+
+# Python
+__pycache__/
+*.pyc
+.vscode/
+msedgedriver
+
+# OS files
+.DS_Store
+Thumbs.db

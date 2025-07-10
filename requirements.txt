@@ -1,0 +1,10 @@
+# Ethereum & Smart Contract Interaction
+web3>=6.0.0          # Contract-level testing (giftcard_test.py)
+
+# Testing
+pytest>=7.4.0        # Base testing framework
+selenium>=4.11.0     # Automated UI tests with Edge
+
+# Utilities
+requests>=2.31.0     # Fetch JSON (contractInfo.json)
+
