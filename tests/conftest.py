@@ -34,5 +34,5 @@ def driver(request):
     driver = webdriver.Edge(service=service, options=options)
 
     yield driver #handoff to test functions
-    time.sleep(30)
-    #driver.quit()
+    time.sleep(2)
+    driver.quit()

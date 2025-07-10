@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/moshi/Documents/GitHub/mango/mangocard-hardhat/contracts/GiftCard.sol": {
-      "lastModificationDate": 1752045933761,
-      "contentHash": "281af4244cfae88f70c143ef86763d60",
+    "/Users/moshi/Documents/GitHub/mango/contracts/GiftCard.sol": {
+      "lastModificationDate": 1752065262400,
+      "contentHash": "c9ea0c800411af14ec1f10cef981c58e",
       "sourceName": "contracts/GiftCard.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -37,7 +37,7 @@
         "GiftCard"
       ]
     },
-    "/Users/moshi/Documents/GitHub/mango/mangocard-hardhat/contracts/Lock.sol": {
+    "/Users/moshi/Documents/GitHub/mango/contracts/Lock.sol": {
       "lastModificationDate": 1751985358794,
       "contentHash": "7eee587c347fe6b1de50c96688cb9477",
       "sourceName": "contracts/Lock.sol",

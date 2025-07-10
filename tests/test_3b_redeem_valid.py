@@ -20,12 +20,11 @@ def test_redeem(driver, code):
     balance_before_text = driver.find_element(By.ID, "walletBalance").text.strip()
     balance_before = float(balance_before_text)
     
-
     # click purchase button
     driver.find_element(By.ID, "redeemButton").click()
 
-    # ⏳ Wait for status update
     time.sleep(2)
+    #get balance after redemption attempt
     balance_after_text = driver.find_element(By.ID, "walletBalance").text.strip()
     balance_after = float(balance_after_text)
 
