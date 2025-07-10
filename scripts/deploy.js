@@ -1,4 +1,6 @@
 const hre = require("hardhat");
+const fs = require("fs");
+const path = require("path");
 
 async function main() {
   const GiftCard = await hre.ethers.getContractFactory("GiftCard");
@@ -11,6 +13,10 @@ async function main() {
 
   // Get the address
   const address = await giftCard.getAddress();
+  // Write to a shared JSON file
+  const output = { address: address };
+  const filePath = path.join(__dirname, "..", "web", "contractInfo.json");
+  fs.writeFileSync(filePath, JSON.stringify(output, null, 2));
 
   console.log("🎉 GiftCard deployed to:", address);
 }

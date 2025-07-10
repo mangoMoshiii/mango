@@ -3,9 +3,18 @@ let provider;
 let signer;
 let contract;
 let userAddress;
+let contractAddress;
 
-//replace contract address after each deployment
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+fetch("contractInfo.json")
+  .then(res => res.json())
+  .then(data => {
+    console.log("address:", data);
+    contractAddress = data.address;
+  })
+  .catch(err => {
+    console.error("contract info load failed:", err);
+  });
+
 const contractABI = [
     {
     "inputs": [],
@@ -131,11 +140,9 @@ const contractABI = [
     }
 ];
 
-//console.log("Ethers object:", typeof ethers);
-
 //connect wallet
 async function connectWallet() {
-  if (window.location.search.includes("testMode=true")) { //in testmode
+  if (window.location.search.includes("testMode=true")) { //in testmode use hardhat
     provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
     //hardcoded hardhat wallet address
     const wallet = new ethers.Wallet("0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e", provider);
@@ -144,12 +151,9 @@ async function connectWallet() {
     contract = new ethers.Contract(contractAddress, contractABI, signer);
   }
   
-  else if (window.ethereum){
+  else if (window.ethereum){ //use metamask
     // Initialize provider and signer
     provider = new ethers.providers.Web3Provider(window.ethereum);
-    //local provider 
-    //const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-    //use one of the private keys from npx hardhat node
     await provider.send("eth_requestAccounts", []);
     signer = await provider.getSigner();
     console.log("Signer:", signer);

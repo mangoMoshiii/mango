@@ -10,7 +10,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 #full path to the JSON file
-json_path = os.path.join(script_dir, 'artifacts', 'contracts', 'GiftCard.sol', 'GiftCard.json')
+json_path = os.path.join(script_dir,'..', 'artifacts', 'contracts', 'GiftCard.sol', 'GiftCard.json')
 
 #connect to local Ethereum node
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
